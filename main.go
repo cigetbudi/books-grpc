@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net"
@@ -9,31 +8,10 @@ import (
 	"os/signal"
 
 	"github.com/cigetbudi/books-grpc/book/bookpb"
+	"github.com/cigetbudi/books-grpc/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
-
-// struct server buat implementasi
-type server struct {
-}
-
-func (*server) GetBook(c context.Context, req *bookpb.GetBookRequest) (*bookpb.GetBookResponse, error) {
-	//getting request
-	bookReq := req.GetBook()
-
-	//retrieving from request
-	book := bookpb.Book{
-		Id:     bookReq.Id,
-		Title:  bookReq.Title,
-		Author: bookReq.Author,
-		IsRead: false,
-	}
-
-	return &bookpb.GetBookResponse{
-		Status: true,
-		Data:   &book,
-	}, nil
-}
 
 func main() {
 	// ngelog nampilin error baris berapa
@@ -50,7 +28,7 @@ func main() {
 	s := grpc.NewServer()
 
 	//masukin RegisterBookServiceServer ke s
-	bookpb.RegisterBoookServiceServer(s, &server{})
+	bookpb.RegisterBoookServiceServer(s, &server.Server{})
 
 	//reflection diaktifin biar bisa ditest
 	reflection.Register(s)

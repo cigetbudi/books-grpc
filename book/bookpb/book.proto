@@ -15,15 +15,40 @@ message Book {
   bool is_read = 4;
 }
 
-message GetBookRequest {Book book = 1;}
-
+// Object Request GetBook by ID
+message GetBookRequest {string id = 1;}
+// Object Response isinya data buku dan status
 message GetBookResponse {
     bool status = 1;
     Book data  = 2;
 }
 
+// Object request AddBook
+message AddBookRequest { Book book = 1;}
+// Object response AddBook isinya data buku dan status
+message AddBookResponse {
+    bool status = 1;
+    Book data = 2;
+}
+
+// Membuat Request UpdateBook
+message UpdateBookRequest { Book book = 1;}
+// Object Response isinya data dan status
+message UpdateBookResponse {
+    bool status = 1;
+    Book data  = 2;
+}
+
+// Membuat Request DeleteBook by ID
+message DeleteBookRequest { string book_id =1; }
+// Membuat Response DeleteBook isinya status
+message DeleteBookResponse {bool status = 1;}
 
 //service
 service BoookService {
     rpc GetBook(GetBookRequest) returns (GetBookResponse) {};
+    rpc AddBook(AddBookRequest) returns (AddBookResponse) {};
+    rpc UpdateBook(UpdateBookRequest) returns (UpdateBookResponse) {};
+    rpc DeleteBook(DeleteBookRequest) returns (DeleteBookResponse) {};
+
 }
